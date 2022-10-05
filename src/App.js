@@ -14,9 +14,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
   handleChange() {
-    const test = this.state
     this.setState({isOn : !this.state.isOn})
-    console.log(test.list);
 
   }
   componentDidMount() {
