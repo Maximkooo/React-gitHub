@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Post from './Post';
 
 
 class App extends React.Component {
@@ -7,24 +8,31 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: 'Stepan',
-      age: 25,
-      isShow: false
+      isOn: false,
+      list: null
     }
     this.handleChange = this.handleChange.bind(this)
   }
-   handleChange() {
-    this.setState({name: 'Mykola', age: 30, isShow: !this.state.isShow})
+  handleChange() {
+    const test = this.state
+    this.setState({isOn : !this.state.isOn})
+    console.log(test.list);
+
   }
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then((response) => response.json())
+    .then((json) => this.setState({list : json}));
+  }
+
 
   render(){
     return (
-      <div>
-        { this.state.isShow ?
-          <p> Name: {this.state.name}, age: {this.state.age} </p> :
-          ''
-        }
-	      <button onClick={this.handleChange}>{ !this.state.isShow ? 'показать' : 'скрыть'}</button>
+      <div className='box'>
+	      <button onClick={this.handleChange} className='button button-main'>Posts</button>
+        {this.state.isOn ? <div> {this.state.list.map((x, i) =>
+          <Post post={x} key={i} />
+        )} </div> : ''}
       </div>
     );
   }
