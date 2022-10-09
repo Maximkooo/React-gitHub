@@ -4,33 +4,75 @@ import Post from './Post';
 
 
 class App extends React.Component {
-
   constructor() {
     super();
     this.state = {
-      isOn: false,
-      list: null
+      posts: []
     }
-    this.handleChange = this.handleChange.bind(this)
   }
-  handleChange() {
-    this.setState({isOn : !this.state.isOn})
 
-  }
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/posts')
     .then((response) => response.json())
-    .then((json) => this.setState({list : json}));
+    .then((json) => this.setState({posts : json}));
   }
 
+  changeTitleData = (event) => {
+    event.preventDefault();
+    try{
+      fetch(`https://jsonplaceholder.typicode.com/posts/${event.target.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          title: event.target[0].value
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+      .then((response) => response.status === 200 ?
+        alert('You change title ') :
+        alert('You have error'))
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  changeTitleRealTime = (event) => {
+    this.setState({
+      posts: this.state.posts.map((post) =>
+        post.id === Number(event.target.id) ? {...post, title: event.target.value} : post
+      )
+    })
+  }
+
+  deletePost = (event) => {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${event.target.id}`, {
+      method: 'DELETE',
+    })
+    .then((response) => response.status === 200 ?
+
+      this.setState({
+        posts: this.state.posts.filter((post) =>
+          post.id !== Number(event.target.id)
+        )}) :
+      alert('You have error'))
+    .then(alert(`You delete post #${event.target.id}`))
+  }
 
   render(){
     return (
       <div className='box'>
-	      <button onClick={this.handleChange} className='button button-main'>Posts</button>
-        {this.state.isOn ? <div> {this.state.list.map((x, i) =>
-          <Post post={x} key={i} />
-        )} </div> : ''}
+        {this.state.posts ? <div> {this.state.posts.map(post =>
+          <Post
+            post={post}
+            key={post.id}
+            changeTitleRealTime={this.changeTitleRealTime}
+            changeTitleData={this.changeTitleData}
+            deletePost={this.deletePost}
+          />
+        )}
+        </div> : null}
       </div>
     );
   }

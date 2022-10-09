@@ -2,76 +2,45 @@ import React from 'react';
 import './App.css';
 
 class Post extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.post.title,
-      id : this.props.post.id,
-      body: this.props.post.body,
-      isShow: false
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.clickTitle = this.clickTitle.bind(this);
-    this.deletePost = this.deletePost.bind(this);
-    this.alertMess = this.alertMess.bind(this);
-  }
-  handleChange(event) {
-    this.setState({title: event.target.value});
-  }
-
-  handleSubmit(event) {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${this.props.post.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        title: this.state.title,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-    .then((response) => response.json() && response.status === 200 ? this.alertMess('You change title') : this.alertMess('You have error'))
-    .then((json) => this.setState(json) && json ? this.setState({isShow: !this.state.isShow}) : this.setState({isShow: !this.state.isShow}))
-    event.preventDefault();
-  }
-
-  clickTitle() {
-    this.setState({ isShow: !this.state.isShow, })
-  }
-
-  deletePost() {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${this.props.post.id}`, {
-      method: 'DELETE',
-    })
-    .then((response) => response.status === 200 ? this.componentWillUnmount() : this.alertMess('Error'))
-    this.alertMess('You delete post')
-  }
-  componentWillUnmount(){
-    if (document.getElementById(this.state.id)) {
-      document.getElementById(this.state.id).remove()
+      showForm: false
     }
   }
 
-  alertMess(text) {
-    alert(text)
+  showFormTitle = () => {
+    console.log('clickTitle');
+    this.setState({ showForm: !this.state.showForm, })
   }
 
+  changeTitleData = (event) => {
+    this.props.changeTitleData(event)
+    this.setState({ showForm: !this.state.showForm, })
+  }
 
   render(){
     return (
-      <div className='post' id={this.state.id}>
-      <button className='button button-delete' onClick={this.deletePost}>X</button>
-        <p> Form #{this.state.id}</p>
-        {this.state.isShow ?
-          <form onSubmit={this.handleSubmit}>
+      <div className='post'>
+      <button className='button button-delete' onClick={this.props.deletePost} id={this.props.post.id}>X</button>
+        <p> Form #{this.props.post.id}</p>
+        {this.state.showForm ?
+          <form onSubmit={this.changeTitleData} id={this.props.post.id}>
             <label>
-              <input className='input-title' type="text" value={this.state.title}  onChange={this.handleChange} />
+              <input
+                className='input-title'
+                type="text"
+                name='title'
+                id={this.props.post.id}
+                value={this.props.post.title}
+                onChange={this.props.changeTitleRealTime}
+              />
             </label>
             <input type="submit" value="Change" className='button button-change'/>
-          </form> : <h1 className='post-title' onClick={this.clickTitle}>{this.state.title}</h1>
+          </form> :
+          <h1 className='post-title' onClick={this.showFormTitle}>{this.props.post.title}</h1>
         }
-        <p className='post-body'>{this.state.body}</p>
+        <p className='post-body'>{this.props.post.body}</p>
       </div>
     );
   }
