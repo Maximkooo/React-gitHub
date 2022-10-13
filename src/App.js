@@ -1,79 +1,91 @@
 import React from 'react';
 import './App.css';
-import Post from './Post';
+import Form from './Form';
 
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      posts: []
+      email: '',
+      password: '',
+      firstName : '',
+      lastName: '',
+      validEmail: false,
+      validPassword: false,
+      validFirstName: false,
+      validLastName: false,
+    }
+  }
+  handleInputChange = (event) => {
+    this.setState({[event.target.name]: event.target.value})
+    if (event.target.name === 'email') {
+      this.validEmail(event.target.value)
+    }
+    else if (event.target.name === 'password') {
+      this.validPassword(event.target.value)
+    }
+    else{
+      this.validString(event.target.name, event.target.value)
     }
   }
 
-  componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-    .then((response) => response.json())
-    .then((json) => this.setState({posts : json}));
+  validEmail = (email) =>{
+    var valid = /^\S+@\S+\.\S+$/;
+    return valid.test(email) ?
+      this.setState({validEmail : true}) :
+      this.setState({validEmail : false})
   }
 
-  changeTitleData = (event) => {
-    event.preventDefault();
-    try{
-      fetch(`https://jsonplaceholder.typicode.com/posts/${event.target.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          title: event.target[0].value
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-      .then((response) => response.status === 200 ?
-        alert('You change title ') :
-        alert('You have error'))
+  validPassword = (password) => {
+    var valid =
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      password.length > 4 &&
+      password.length < 10;
+    return valid ?
+      this.setState({validPassword : true}) :
+      this.setState({validPassword : false})
+  }
+
+  validString = (name, string) => {
+    var valid =
+      /^[A-Z]+$/i.test(string) &&
+      string.length > 2;
+    if (name === 'firstName') {
+      return valid ?
+        this.setState({validFirstName : true}) :
+        this.setState({validFirstName : false})
     }
-    catch(error){
-      console.log(error);
+    else{
+      return valid ?
+      this.setState({validLastName : true}) :
+      this.setState({validLastName : false})
     }
   }
 
-  changeTitleRealTime = (event) => {
-    this.setState({
-      posts: this.state.posts.map((post) =>
-        post.id === Number(event.target.id) ? {...post, title: event.target.value} : post
-      )
-    })
+  handleButtonClick = (event) => {
+    return event ? alert('You click button'): ''
   }
 
-  deletePost = (event) => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${event.target.id}`, {
-      method: 'DELETE',
-    })
-    .then((response) => response.status === 200 ?
-
-      this.setState({
-        posts: this.state.posts.filter((post) =>
-          post.id !== Number(event.target.id)
-        )}) :
-      alert('You have error'))
-    .then(alert(`You delete post #${event.target.id}`))
-  }
 
   render(){
     return (
-      <div className='box'>
-        {this.state.posts ? <div> {this.state.posts.map(post =>
-          <Post
-            post={post}
-            key={post.id}
-            changeTitleRealTime={this.changeTitleRealTime}
-            changeTitleData={this.changeTitleData}
-            deletePost={this.deletePost}
-          />
-        )}
-        </div> : null}
-      </div>
+      <>
+        <Form
+          email={this.state.email}
+          validEmail={this.state.validEmail}
+          password={this.state.password}
+          validPassword={this.state.validPassword}
+          firstName={this.state.firstName}
+          validFirstName={this.state.validFirstName}
+          lastName={this.state.lastName}
+          validLastName={this.state.validLastName}
+          handleButtonClick={this.handleButtonClick}
+          handleInputChange={this.handleInputChange}
+        />
+      </>
     );
   }
 }
