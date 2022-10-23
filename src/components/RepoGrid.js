@@ -1,7 +1,6 @@
 import { memo } from "react";
 
 const RepoGrid = memo((props) =>{
-  console.log('RepoGrid');
   return(
     <>
     {props.loader === true ? <div className="loader"></div> :
