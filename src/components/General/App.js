@@ -1,15 +1,17 @@
 import React from 'react';
-import './App.css';
-import Home from  './components/Home.js';
-import Battle from  './components/Battle.js';
-import Popular from './components/Popular.js';
-import NoMatch from './components/NoMatch.js';
-import Nav from './components/Nav.js';
+import '../../App.css';
+import Home from  './Home.js';
+import Battle from  '../Battle/index.js';
+import Popular from '../Popular/index.js';
+import NoMatch from './NoMatch.js';
+import Nav from './Nav.js';
+import Results from '../Battle/Results';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
+
 
 
 
@@ -21,6 +23,7 @@ const  App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="battle" element={<Battle />} />
+            <Route path="battle/results" element={<Results />} />
             <Route path="popular" element={<Popular />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>

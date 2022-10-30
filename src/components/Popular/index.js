@@ -1,6 +1,6 @@
 import SelectedLanguages from './SelectedLanguages.js';
 import { useState, useEffect } from 'react';
-import {fetchPopularRepos} from '../api.js'
+import {fetchPopularRepos} from '../../api.js'
 import RepoGrid from './RepoGrid.js';
 import { useSearchParams } from "react-router-dom";
 
