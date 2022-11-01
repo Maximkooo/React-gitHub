@@ -101,7 +101,7 @@ const Results = () => {
             </PlayerPreview>
           </> :
           <>
-          <PlayerPreview
+            <PlayerPreview
               avatar={playerTwoImage}
               username={playerTwoName}
             >
