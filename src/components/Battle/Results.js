@@ -83,37 +83,38 @@ const Results = () => {
 
   return (
     <div className="row">
-      { loader === true ? <div className="loader"></div> : playerOneResult > playerTwoResult ?
-        <>
-          <PlayerPreview
-            avatar={playerOneImage}
-            username={playerOneName}
-          >
-            <h1 className="winner">Winner</h1>
-          </PlayerPreview>
+      { loader === true ? <div className="loader"></div> :
+        playerOneResult > playerTwoResult ?
+          <>
+            <PlayerPreview
+              avatar={playerOneImage}
+              username={playerOneName}
+            >
+              <h1 className="winner">Winner</h1>
+            </PlayerPreview>
 
+            <PlayerPreview
+              avatar={playerTwoImage}
+              username={playerTwoName}
+            >
+              <h1 className="loser">Loser</h1>
+            </PlayerPreview>
+          </> :
+          <>
           <PlayerPreview
-            avatar={playerTwoImage}
-            username={playerTwoName}
-          >
-            <h1 className="loser">Loser</h1>
-          </PlayerPreview>
-        </> :
-        <>
-        <PlayerPreview
-            avatar={playerTwoImage}
-            username={playerTwoName}
-          >
-            <h1 className="winner">Winner</h1>
-          </PlayerPreview>
+              avatar={playerTwoImage}
+              username={playerTwoName}
+            >
+              <h1 className="winner">Winner</h1>
+            </PlayerPreview>
 
-          <PlayerPreview
-            avatar={playerOneImage}
-            username={playerOneName}
-          >
-            <h1 className="loser">Loser</h1>
-          </PlayerPreview>
-        </>
+            <PlayerPreview
+              avatar={playerOneImage}
+              username={playerOneName}
+            >
+              <h1 className="loser">Loser</h1>
+            </PlayerPreview>
+          </>
       }
     </div>
   )
