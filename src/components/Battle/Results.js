@@ -16,6 +16,7 @@ const Results = () => {
   const [playerTwoImage, SetPlayerTwoImage] = useState('')
   const [playerTwoName, SetPlayerTwoName] = useState('')
 
+  const [loader, setLoader] = useState(true);
   const location = useLocation();
   const countInArray = arr => arr.reduce((a, b) => a + b, 0);
 
@@ -34,12 +35,14 @@ const Results = () => {
   useEffect(() => {
     if (playerOneStarsRepos.length) {
       setPlayerOneResult(countInArray(playerOneStarsRepos) + playerOneFollowers)
+      setLoader(false)
     }
   },[playerOneStarsRepos])
 
   useEffect(() => {
     if (playerTwoStarsRepos.length) {
       setPlayerTwoResult(countInArray(playerTwoStarsRepos) + playerTwoFollowers)
+      setLoader(false)
     }
   },[playerTwoStarsRepos])
 
@@ -80,7 +83,7 @@ const Results = () => {
 
   return (
     <div className="row">
-      { playerOneResult > playerTwoResult ?
+      { loader === true ? <div className="loader"></div> : playerOneResult > playerTwoResult ?
         <>
           <PlayerPreview
             avatar={playerOneImage}
