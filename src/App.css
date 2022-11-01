@@ -159,6 +159,26 @@ li {
   animation: spin 2s linear infinite;
 }
 
+.winner {
+  border: none;
+  background: transparent;
+  color: #f40723;
+  display: block;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
+
+.loser {
+  border: none;
+  background: transparent;
+  color: #682e35;
+  display: block;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }

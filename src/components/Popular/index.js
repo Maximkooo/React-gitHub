@@ -37,7 +37,7 @@ const Popular = () => {
         })
         .catch(error => {
           console.log(error);
-        })
+      })
     }
   }
 
