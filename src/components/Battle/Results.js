@@ -9,13 +9,12 @@ const Results = () => {
   const [playerOneResult, setPlayerOneResult] = useState(null)
   const [playerOneImage, setPlayerOneImage] = useState('')
   const [playerOneName, setPlayerOneName] = useState('')
-  const [test, setTest] = useState(0)
 
   const [playerTwoFollowers, setPlayerTwoFollowers] = useState(null)
   const [playerTwoStarsRepos, setPlayerTwoStarsRepos] = useState(0)
   const [playerTwoResult, setPlayerTwoResult] = useState(null)
-  const [playerTwoImage, SetPlayerTwoImage] = useState('')
-  const [playerTwoName, SetPlayerTwoName] = useState('')
+  const [playerTwoImage, setPlayerTwoImage] = useState('')
+  const [playerTwoName, setPlayerTwoName] = useState('')
 
   const [loader, setLoader] = useState(true);
   const location = useLocation();
@@ -25,12 +24,12 @@ const Results = () => {
     const playerTwo = getSearchParams('playerTwoName')
     const players = [playerOne, playerTwo]
     setPlayerOneImage(`https://github.com/${playerOne}.png?size=200`)
-    SetPlayerTwoImage(`https://github.com/${playerTwo}.png?size=200`)
+    setPlayerTwoImage(`https://github.com/${playerTwo}.png?size=200`)
     for (let index = 0; index < players.length; index++) {
       getUserData(players[index], index)
       getUserStarsRepos(players[index], index)
     }
-  },[location])
+  },[])
 
   useEffect(() => {
     setPlayerOneResult(playerOneStarsRepos + playerOneFollowers)
@@ -52,7 +51,7 @@ const Results = () => {
         }
         else {
           setPlayerTwoFollowers(data.followers)
-          SetPlayerTwoName(data.login)
+          setPlayerTwoName(data.login)
         }
       })
       .catch(error => {
