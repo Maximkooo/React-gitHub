@@ -6,13 +6,13 @@ import PlayerPreview from "./PlayerPreview";
 const Results = () => {
   const [playerOneFollowers, setPlayerOneFollowers] = useState(0)
   const [playerOneStarsRepos, setPlayerOneStarsRepos] = useState(0)
-  const [playerOneResult, setPlayerOneResult] = useState(null)
+  const [playerOneResult, setPlayerOneResult] = useState(0)
   const [playerOneImage, setPlayerOneImage] = useState('')
   const [playerOneName, setPlayerOneName] = useState('')
 
   const [playerTwoFollowers, setPlayerTwoFollowers] = useState(0)
   const [playerTwoStarsRepos, setPlayerTwoStarsRepos] = useState(0)
-  const [playerTwoResult, setPlayerTwoResult] = useState(null)
+  const [playerTwoResult, setPlayerTwoResult] = useState(0)
   const [playerTwoImage, setPlayerTwoImage] = useState('')
   const [playerTwoName, setPlayerTwoName] = useState('')
 
@@ -73,10 +73,10 @@ const Results = () => {
   }
 
   return (
-    <div >
+    <div className="row">
       { loader === true ? <div className="loader"></div> :
-        playerOneResult > playerTwoResult ?
-          <div className="row">
+        playerOneResult >= playerTwoResult ?
+          <>
             <PlayerPreview
               avatar={playerOneImage}
               username={playerOneName}
@@ -92,8 +92,8 @@ const Results = () => {
               <h4 className="loser">{playerTwoResult}</h4>
               <h1 className="loser">Loser</h1>
             </PlayerPreview>
-          </div> :
-          <div className="row">
+          </> :
+          <>
             <PlayerPreview
               avatar={playerTwoImage}
               username={playerTwoName}
@@ -109,23 +109,8 @@ const Results = () => {
               <h4 className="loser">{playerOneResult}</h4>
               <h1 className="loser">Loser</h1>
             </PlayerPreview>
-          </div>
+          </>
       }
-      <div className="row">
-        <PlayerPreview
-          avatar={playerOneImage}
-          username={playerOneName}
-        >
-          <h1 className="winner">Winner</h1>
-        </PlayerPreview>
-
-        <PlayerPreview
-          avatar={playerTwoImage}
-          username={playerTwoName}
-        >
-          <h1 className="loser">Loser</h1>
-        </PlayerPreview>
-      </div>
     </div>
   )
 }
