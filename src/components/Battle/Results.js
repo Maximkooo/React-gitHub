@@ -5,26 +5,26 @@ import PlayerPreview from "./PlayerPreview";
 
 const Results = () => {
   const [playerOneFollowers, setPlayerOneFollowers] = useState(null)
-  const [playerOneStarsRepos, setPlayerOneStarsRepos] = useState([])
+  const [playerOneStarsRepos, setPlayerOneStarsRepos] = useState(0)
   const [playerOneResult, setPlayerOneResult] = useState(null)
-  const [playerOneImage, SetPlayerOneImage] = useState('')
-  const [playerOneName, SetPlayerOneName] = useState('')
+  const [playerOneImage, setPlayerOneImage] = useState('')
+  const [playerOneName, setPlayerOneName] = useState('')
+  const [test, setTest] = useState(0)
 
   const [playerTwoFollowers, setPlayerTwoFollowers] = useState(null)
-  const [playerTwoStarsRepos, setPlayerTwoStarsRepos] = useState([])
+  const [playerTwoStarsRepos, setPlayerTwoStarsRepos] = useState(0)
   const [playerTwoResult, setPlayerTwoResult] = useState(null)
   const [playerTwoImage, SetPlayerTwoImage] = useState('')
   const [playerTwoName, SetPlayerTwoName] = useState('')
 
   const [loader, setLoader] = useState(true);
   const location = useLocation();
-  const countInArray = arr => arr.reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     const playerOne = getSearchParams('playerOneName')
     const playerTwo = getSearchParams('playerTwoName')
     const players = [playerOne, playerTwo]
-    SetPlayerOneImage(`https://github.com/${playerOne}.png?size=200`)
+    setPlayerOneImage(`https://github.com/${playerOne}.png?size=200`)
     SetPlayerTwoImage(`https://github.com/${playerTwo}.png?size=200`)
     for (let index = 0; index < players.length; index++) {
       getUserData(players[index], index)
@@ -33,18 +33,10 @@ const Results = () => {
   },[location])
 
   useEffect(() => {
-    if (playerOneStarsRepos.length) {
-      setPlayerOneResult(countInArray(playerOneStarsRepos) + playerOneFollowers)
-      setLoader(false)
-    }
-  },[playerOneStarsRepos])
-
-  useEffect(() => {
-    if (playerTwoStarsRepos.length) {
-      setPlayerTwoResult(countInArray(playerTwoStarsRepos) + playerTwoFollowers)
-      setLoader(false)
-    }
-  },[playerTwoStarsRepos])
+    setPlayerOneResult(playerOneStarsRepos + playerOneFollowers)
+    setPlayerTwoResult(playerTwoStarsRepos + playerTwoFollowers)
+    setLoader(false)
+  },[playerOneStarsRepos],[playerTwoStarsRepos])
 
   const getSearchParams = (player) => {
     const searchParams = new URLSearchParams(location.search)
@@ -56,7 +48,7 @@ const Results = () => {
       .then(data => {
         if (index === 0) {
           setPlayerOneFollowers(data.followers)
-          SetPlayerOneName(data.login)
+          setPlayerOneName(data.login)
         }
         else {
           setPlayerTwoFollowers(data.followers)
@@ -72,8 +64,8 @@ const Results = () => {
       .then(data => {
         data.forEach((item)=> {
           index === 0 ?
-          setPlayerOneStarsRepos(oldArray => [...oldArray, item.stargazers_count]) :
-          setPlayerTwoStarsRepos(oldArray => [...oldArray, item.stargazers_count])
+          setPlayerOneStarsRepos(prevTest => prevTest + item.stargazers_count) :
+          setPlayerTwoStarsRepos(prevTest => prevTest + item.stargazers_count)
         })
       })
       .catch(error => {
