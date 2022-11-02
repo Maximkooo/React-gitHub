@@ -4,13 +4,13 @@ import { getUser, getUserRepos } from "../../api";
 import PlayerPreview from "./PlayerPreview";
 
 const Results = () => {
-  const [playerOneFollowers, setPlayerOneFollowers] = useState(null)
+  const [playerOneFollowers, setPlayerOneFollowers] = useState(0)
   const [playerOneStarsRepos, setPlayerOneStarsRepos] = useState(0)
   const [playerOneResult, setPlayerOneResult] = useState(null)
   const [playerOneImage, setPlayerOneImage] = useState('')
   const [playerOneName, setPlayerOneName] = useState('')
 
-  const [playerTwoFollowers, setPlayerTwoFollowers] = useState(null)
+  const [playerTwoFollowers, setPlayerTwoFollowers] = useState(0)
   const [playerTwoStarsRepos, setPlayerTwoStarsRepos] = useState(0)
   const [playerTwoResult, setPlayerTwoResult] = useState(null)
   const [playerTwoImage, setPlayerTwoImage] = useState('')
@@ -35,7 +35,7 @@ const Results = () => {
     setPlayerOneResult(playerOneStarsRepos + playerOneFollowers)
     setPlayerTwoResult(playerTwoStarsRepos + playerTwoFollowers)
     setLoader(false)
-  },[playerOneStarsRepos],[playerTwoStarsRepos])
+  },[playerOneStarsRepos, playerTwoStarsRepos])
 
   const getSearchParams = (player) => {
     const searchParams = new URLSearchParams(location.search)
@@ -73,14 +73,15 @@ const Results = () => {
   }
 
   return (
-    <div className="row">
+    <div >
       { loader === true ? <div className="loader"></div> :
         playerOneResult > playerTwoResult ?
-          <>
+          <div className="row">
             <PlayerPreview
               avatar={playerOneImage}
               username={playerOneName}
             >
+              <h4 className="winner">{playerOneResult}</h4>
               <h1 className="winner">Winner</h1>
             </PlayerPreview>
 
@@ -88,14 +89,16 @@ const Results = () => {
               avatar={playerTwoImage}
               username={playerTwoName}
             >
+              <h4 className="loser">{playerTwoResult}</h4>
               <h1 className="loser">Loser</h1>
             </PlayerPreview>
-          </> :
-          <>
+          </div> :
+          <div className="row">
             <PlayerPreview
               avatar={playerTwoImage}
               username={playerTwoName}
             >
+              <h4 className="winner">{playerTwoResult}</h4>
               <h1 className="winner">Winner</h1>
             </PlayerPreview>
 
@@ -103,10 +106,26 @@ const Results = () => {
               avatar={playerOneImage}
               username={playerOneName}
             >
+              <h4 className="loser">{playerOneResult}</h4>
               <h1 className="loser">Loser</h1>
             </PlayerPreview>
-          </>
+          </div>
       }
+      <div className="row">
+        <PlayerPreview
+          avatar={playerOneImage}
+          username={playerOneName}
+        >
+          <h1 className="winner">Winner</h1>
+        </PlayerPreview>
+
+        <PlayerPreview
+          avatar={playerTwoImage}
+          username={playerTwoName}
+        >
+          <h1 className="loser">Loser</h1>
+        </PlayerPreview>
+      </div>
     </div>
   )
 }
