@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import {fetchPopularRepos} from '../../api.js'
 import RepoGrid from './RepoGrid.js';
 import { useSearchParams } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const Popular = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,6 +12,9 @@ const Popular = () => {
   const [loader, setLoader] = useState(true);
   const [lastRequestTime, setLastRequestTime] = useState(0);
 
+  const counter = useSelector((state) => state.popularReducer)
+  console.log(counter);
+  
   useEffect(() => {
     if (!repos.length) {
       fetchRepos(searchParams.get("lang") ? searchParams.get("lang") : selectedLanguage)
