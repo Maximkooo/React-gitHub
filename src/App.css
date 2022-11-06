@@ -179,6 +179,17 @@ li {
   outline: none;
 }
 
+.score_title {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.score {
+  color: #d0021b;
+  font-weight: bold;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
