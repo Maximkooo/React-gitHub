@@ -1,11 +1,14 @@
 import { memo } from "react";
+import { useSelector } from "react-redux";
 
-const RepoGrid = memo((props) =>{
+const RepoGrid = memo((props) => {
+  const repos = useSelector(state => state.popularReducer.repos);
+
   return(
     <>
     {props.loader === true ? <div className="loader"></div> :
       <ul className="popular-list">
-        {props.repos.map((repo, index) => {
+        {repos.map((repo, index) => {
           return(
             <li key={repo.name} className="popular-item">
               <div className="popular-rank">#{index + 1}</div>
