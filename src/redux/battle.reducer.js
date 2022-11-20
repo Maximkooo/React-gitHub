@@ -1,4 +1,4 @@
-import { GET_USER_INFO, SET_USER_INFO_RESET, GET_WINNER_INFO } from "./battle.constants";
+import { GET_USER_INFO, SET_USER_INFO_RESET, GET_WINNER_INFO, GET_WINNER_LOADING } from "./battle.constants";
 
 const initialState = {
   playerOneName: '',
@@ -42,6 +42,14 @@ export const battleReducer = (store = initialState, action) => {
           playerTwoName: '',
           playerTwoImage: ''
         }
+      }
+
+    case GET_WINNER_LOADING:
+      return {
+        ...store,
+        loader: false,
+        winner: null,
+        loser: null,
       }
 
     case GET_WINNER_INFO:

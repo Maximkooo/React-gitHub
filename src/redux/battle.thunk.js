@@ -1,4 +1,4 @@
-import { getUserInfo, setUserInfoReset, getWinnerInfo } from "./battle.actions"
+import { getUserInfo, setUserInfoReset, getWinnerInfo, getWinnerLoading } from "./battle.actions"
 import { startBattle } from "../api.js"
 
 export const getUser = (id, player) => async (dispatch) => {
@@ -10,6 +10,7 @@ export const setUserReset = (id) => async (dispatch) => {
 }
 
 export const getWinner = (players) => async (dispatch) => {
+  await dispatch(getWinnerLoading());
   try {
     const winner = await startBattle(players)
     if (winner.length) {
