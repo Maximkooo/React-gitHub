@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import {startBattle} from "../../api.js"
-
+import { useDispatch, useSelector } from "react-redux";
+import { getWinner } from "../../redux/battle.thunk";
 import PlayerPreview from "./PlayerPreview";
 
 const Results = () => {
-  const [winner, setWinner] = useState(null)
-  const [loser, setLoser] = useState(null)
-  const [loader, setLoader] = useState(false);
+  const winner = useSelector(state => state.battleReducer.winner);
+  const loser = useSelector(state => state.battleReducer.loser);
+  const loader = useSelector(state => state.battleReducer.loader);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
-    startBattle([searchParams.get('playerOneName'), searchParams.get('playerTwoName')])
-      .then(([winner, loser]) => {
-        setWinner(winner);
-        setLoser(loser);
-        setLoader(true)
-      })
-  },[location.search])
+    dispatch(getWinner([searchParams.get('playerOneName'), searchParams.get('playerTwoName')]))
+  },[])
 
 
   return (
@@ -45,7 +41,6 @@ const Results = () => {
         </>
         : null
       }
-      
     </div>
   )
 }

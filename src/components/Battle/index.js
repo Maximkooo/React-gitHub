@@ -1,36 +1,19 @@
-import { useState } from "react";
+
 import { Link } from "react-router-dom";
 import PlayerInput from "./PlayerInput";
 import PlayerPreview from "./PlayerPreview";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserReset } from "../../redux/battle.thunk";
 
 const Battle = () => {
-  const [playerOneName, SetPlayerOneName] = useState('')
-  const [playerTwoName, SetPlayerTwoName] = useState('')
-  const [playerOneImage, SetPlayerOneImage] = useState('')
-  const [playerTwoImage, SetPlayerTwoImage] = useState('')
-
-  const handleSubmit = (id, username) => {
-    if (id === 'playerOne') {
-      SetPlayerOneName(username)
-      SetPlayerOneImage(`https://github.com/${username}.png?size=200`)
-
-    }
-    else{
-      SetPlayerTwoName(username)
-      SetPlayerTwoImage(`https://github.com/${username}.png?size=200`)
-    }
-  }
+  const dispatch = useDispatch();
+  const playerOneName = useSelector(state => state.battleReducer.playerOneName);
+  const playerOneImage = useSelector(state => state.battleReducer.playerOneImage);
+  const playerTwoName = useSelector(state => state.battleReducer.playerTwoName);
+  const playerTwoImage = useSelector(state => state.battleReducer.playerTwoImage);
 
   const handleReset = (id) =>{
-    if (id === 'playerOne') {
-      SetPlayerOneName('')
-      SetPlayerOneImage('')
-
-    }
-    else{
-      SetPlayerTwoName('')
-      SetPlayerTwoImage('')
-    }
+    dispatch(setUserReset(id))
   }
 
   return (
@@ -40,7 +23,6 @@ const Battle = () => {
           <PlayerInput
             id='playerOne'
             label='Player 1'
-            onSubmit={handleSubmit}
           /> :
           <PlayerPreview
             avatar={playerOneImage}
@@ -55,7 +37,6 @@ const Battle = () => {
           <PlayerInput
             id='playerTwo'
             label='Player 2'
-            onSubmit={handleSubmit}
           /> :
           <PlayerPreview
             avatar={playerTwoImage}

@@ -9,6 +9,7 @@ const initialState = {
 }
 
 export const popularReducer = (store = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case SET_LANGUAGE:
       return {

@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../redux/battle.thunk";
 
 const PlayerInput = (props) => {
   const [username, setUserName] = useState('');
+  const dispatch = useDispatch();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.onSubmit(props.id, username)
+    dispatch(getUser(props.id, username))
   }
 
   return (
