@@ -12,7 +12,7 @@ const Battle = () => {
   const playerTwoName = useSelector(state => state.battleReducer.playerTwoName);
   const playerTwoImage = useSelector(state => state.battleReducer.playerTwoImage);
 
-  const handleReset = (id) =>{
+  const handleReset = (id) => {
     dispatch(setUserReset(id))
   }
 
@@ -53,7 +53,7 @@ const Battle = () => {
             pathname: '/battle/results',
             search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}`
           }}
-          >
+        >
           Battle
         </Link>
       }

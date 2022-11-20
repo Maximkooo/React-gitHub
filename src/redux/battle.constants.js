@@ -1,4 +1,3 @@
-
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const SET_USER_INFO_RESET = 'SET_USER_INFO_RESET';
 export const GET_WINNER_INFO = 'GET_WINNER_INFO';

@@ -20,7 +20,7 @@ export const battleReducer = (store = initialState, action) => {
           playerOneImage: `https://github.com/${action.payload}.png?size=200`
         }
       }
-      else{
+      else {
         return {
           ...store,
           playerTwoName: action.payload,
@@ -28,29 +28,29 @@ export const battleReducer = (store = initialState, action) => {
         }
       }
 
-      case SET_USER_INFO_RESET:
-        if (action.id === 'playerOne') {
-          return {
-            ...store,
-            playerOneName: '',
-            playerOneImage: ''
-          }
-        }
-        else{
-          return {
-            ...store,
-            playerTwoName: '',
-            playerTwoImage: ''
-          }
-        }
-
-      case GET_WINNER_INFO:
-        return{
+    case SET_USER_INFO_RESET:
+      if (action.id === 'playerOne') {
+        return {
           ...store,
-          winner: action.payload[0],
-          loser: action.payload[1],
-          loader: true
+          playerOneName: '',
+          playerOneImage: ''
         }
+      }
+      else {
+        return {
+          ...store,
+          playerTwoName: '',
+          playerTwoImage: ''
+        }
+      }
+
+    case GET_WINNER_INFO:
+      return {
+        ...store,
+        winner: action.payload[0],
+        loser: action.payload[1],
+        loader: true
+      }
 
     default:
       return store;

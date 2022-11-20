@@ -14,12 +14,12 @@ const Results = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     dispatch(getWinner([searchParams.get('playerOneName'), searchParams.get('playerTwoName')]))
-  },[])
+  }, [])
 
 
   return (
     <div className="row">
-      { loader ?
+      {loader ?
         <>
           <PlayerPreview
             avatar={winner.profile.avatar_url}
