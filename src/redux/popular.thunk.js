@@ -4,9 +4,8 @@ import { fetchPopularRepos } from "../api";
 export const getRepos = (language) => async (dispatch) => {
   await dispatch(setLanguage(language));
   await dispatch(getReposLoading());
-
+  const repos = await fetchPopularRepos(language)
   try {
-    const repos = await fetchPopularRepos(language)
     if (repos.length) {
       dispatch(getReposSuccess(repos))
     }
